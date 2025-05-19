@@ -8,7 +8,7 @@ use OpenAI\Factory;
 final class OpenAI
 {
     /**
-     * Creates a new Open AI Client with the given API token.
+     * Creates a new Open AI Client with the given API token..
      */
     public static function client(string $apiKey, ?string $organization = null, ?string $project = null): Client
     {
