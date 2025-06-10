@@ -46,6 +46,7 @@ If you or your business relies on this package, it's important to support the de
   - [Vector Stores Files Resource](#vector-store-files-resource)
   - [Vector Stores File Batches Resource](#vector-store-file-batches-resource)
   - [Batches Resource](#batches-resource)
+  - [Realtime Ephemeral Keys](#realtime-ephemeral-keys)
   - [FineTunes Resource (deprecated)](#finetunes-resource-deprecated)
   - [Edits Resource (deprecated)](#edits-resource-deprecated)
 - [Meta Information](#meta-information)
@@ -227,7 +228,7 @@ foreach ($stream as $response) {
 }
 ```
 
-### `retrieve`
+#### `retrieve`
 
 Retrieves a model response with the given ID.
 
@@ -254,7 +255,7 @@ $response->truncation; // 'disabled'
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', ...]
 ```
 
-### `cancel`
+#### `cancel`
 
 Cancel a model response (background request) with the given ID.
 
@@ -267,7 +268,7 @@ $response->status; // 'canceled'
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', 'status' => 'canceled', ...]
 ```
 
-### `delete`
+#### `delete`
 
 Deletes a model response with the given ID.
 
@@ -281,7 +282,7 @@ $response->deleted; // true
 $response->toArray(); // ['id' => 'resp_67ccd2bed1ec8190b14f964abc054267', 'deleted' => true, ...]
 ```
 
-### `list`
+#### `list`
 
 Lists input items for a response with the given ID. All events and their payloads can be found in [OpenAI docs](https://platform.openai.com/docs/api-reference/responses/list).
 
@@ -2272,6 +2273,30 @@ foreach ($response->data as $result) {
 }
 
 $response->toArray(); // ['object' => 'list', ...]]
+```
+
+### Realtime Ephemeral Keys
+
+#### `token`
+
+Create an ephemeral API token for real time sessions.
+
+```php
+$response = $client->realtime()->token();
+
+$response->clientSecret->value // 'ek-1234567890abcdefg'
+$response->clientSecret->expiresAt // 1717703267
+```
+
+#### `transcribeToken`
+
+Create an ephemeral API token for real time transcription sessions.
+
+```php
+$response = $client->realtime()->transcribeToken();
+
+$response->clientSecret->value // 'et-1234567890abcdefg'
+$response->clientSecret->expiresAt // 1717703267
 ```
 
 ### `Edits` Resource (deprecated)

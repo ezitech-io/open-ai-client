@@ -17,7 +17,7 @@ function createResponseResource(): array
         'metadata' => [],
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
-            outputMessage(),
+            outputAnnotationMessage(),
             outputWebSearchToolCall(),
             outputFileSearchToolCall(),
             outputComputerToolCall(),
@@ -40,6 +40,7 @@ function createResponseResource(): array
         'tools' => [
             toolWebSearchPreview(),
             toolFileSearch(),
+            toolImageGeneration(),
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
@@ -76,7 +77,7 @@ function retrieveResponseResource(): array
         'model' => 'gpt-4o-2024-08-06',
         'output' => [
             outputWebSearchToolCall(),
-            outputMessage(),
+            outputAnnotationMessage(),
         ],
         'parallel_tool_calls' => true,
         'previous_response_id' => null,
@@ -95,6 +96,7 @@ function retrieveResponseResource(): array
         'tools' => [
             toolWebSearchPreview(),
             toolFileSearch(),
+            toolImageGeneration(),
         ],
         'top_p' => 1.0,
         'truncation' => 'disabled',
@@ -247,7 +249,27 @@ function outputReasoning(): array
 /**
  * @return array<string, mixed>
  */
-function outputMessage(): array
+function outputBasicMessage(): array
+{
+    return [
+        'content' => [
+            [
+                'annotations' => [],
+                'text' => 'This is a basic message.',
+                'type' => 'output_text',
+            ],
+        ],
+        'id' => 'msg_67ccf190ca3881909d433c50b1f6357e087bb177ab789d5c',
+        'role' => 'assistant',
+        'status' => 'completed',
+        'type' => 'message',
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function outputAnnotationMessage(): array
 {
     return [
         'content' => [
@@ -324,6 +346,25 @@ function toolWebSearchPreview(): array
             'region' => 'California',
             'timezone' => 'America/Los_Angeles',
         ],
+    ];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function toolImageGeneration(): array
+{
+    return [
+        'type' => 'image_generation',
+        'background' => 'transparent',
+        'input_image_mask' => null,
+        'model' => 'gpt-image-1',
+        'moderation' => 'auto',
+        'output_compression' => 100,
+        'output_format' => 'png',
+        'partial_images' => 0,
+        'quality' => 'auto',
+        'size' => 'auto',
     ];
 }
 
